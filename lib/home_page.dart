@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'api.dart';
+import 'custom_progress_indicator.dart';
 import 'custom_view.dart';
 import 'function_list.dart';
 import 'list_route.dart';
@@ -16,11 +17,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   _HomePageState() {
-    _viewList = Api.getAllFunctions()
+    _viewList = Api.retrieveAllFunctions()
         .map((String name) => CustomView(name, Icons.storage))
         .toList();
-
-    print(_viewList);
   }
 
   List<CustomView> _viewList;
@@ -40,13 +39,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (_viewList == null) {
-      return Center(
-        child: Container(
-          height: 80.0,
-          width: 80.0,
-          child: const CircularProgressIndicator(),
-        ),
-      );
+      return const CustomProgressIndicator();
     }
 
     final Widget listTile = FunctionList(

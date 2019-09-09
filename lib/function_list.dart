@@ -7,27 +7,35 @@ const double _padding = 8.0;
 const String _mainFunctionName = 'Task List';
 
 class FunctionList extends StatelessWidget {
-  const FunctionList(
-      {@required this.onTap, @required this.viewList});
+  const FunctionList({@required this.onTap, @required this.viewList});
 
   final ValueChanged<CustomView> onTap;
   final List<CustomView> viewList;
 
+  CustomView _createViewWithProps(int index, Map<String, dynamic> props) {
+    final CustomView target = viewList[index];
+
+    return CustomView.from(target)..addViewProps(props);
+  }
+
   Widget _buildMainContent(BuildContext context) {
     return Container(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).backgroundColor,
       child: Center(
         child: Container(
           height: 110.0,
           child: FlatButton(
-              splashColor: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColor,
+              splashColor: Theme.of(context).splashColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0)),
-              onPressed: () => onTap(viewList[0]),
+              onPressed: () => onTap(_createViewWithProps(
+                  0, <String, dynamic>{'onlyShowInProgress': true})),
               child: Column(
                 children: <Widget>[
-                  Icon(Icons.edit, size: 80.0),
-                  Text(_mainFunctionName, style: Theme.of(context).textTheme.title)
+                  Icon(Icons.domain, size: 80.0),
+                  Text(_mainFunctionName,
+                      style: Theme.of(context).textTheme.title)
                 ],
               )),
         ),
@@ -64,21 +72,23 @@ class FunctionList extends StatelessWidget {
     final Orientation orientation = MediaQuery.of(context).orientation;
 
     final Widget listView = Container(
+        color: Theme.of(context).secondaryHeaderColor,
         padding: const EdgeInsets.symmetric(horizontal: _padding),
         child: _buildSubContent(orientation));
 
     return Container(
+        color: Theme.of(context).backgroundColor,
         child: Column(
-      children: <Widget>[
-        Expanded(
-          child: _buildMainContent(context),
-          flex: 1,
-        ),
-        Expanded(
-          child: listView,
-          flex: (orientation == Orientation.portrait) ? 3 : 1,
-        )
-      ],
-    ));
+          children: <Widget>[
+            Expanded(
+              child: _buildMainContent(context),
+              flex: 1,
+            ),
+            Expanded(
+              child: listView,
+              flex: (orientation == Orientation.portrait) ? 3 : 1,
+            )
+          ],
+        ));
   }
 }

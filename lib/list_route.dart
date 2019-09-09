@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'about_page.dart';
 import 'backdrop.dart';
 import 'custom_view.dart';
 import 'function_list.dart';
@@ -36,10 +37,13 @@ class _ListRouteState extends State<ListRoute> {
   }
 
   Widget _router(CustomView view) {
+    print('props: ${view.getProps()}');
     switch(view.name) {
       case 'SubList1':
-        return Text('Welcome');
+        return const Text('Welcome');
         break;
+      case 'About':
+        return const AboutPage();
       default:
         return Text('This is ${view.name}');
     }
@@ -48,7 +52,7 @@ class _ListRouteState extends State<ListRoute> {
   @override
   Widget build(BuildContext context) {
     return Backdrop(
-        currentView: _currentView == null ? widget.viewList[0] : _currentView,
+        currentView: _currentView ?? widget.viewList[0],
         frontPanel: _router(_currentView),
         backPanel: FunctionList(onTap: _onMenuTap, viewList: widget.viewList),
         frontTitle: Text(widget.title),

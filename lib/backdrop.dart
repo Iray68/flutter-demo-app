@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import 'custom_view.dart';
+import 'utils/capitalize.dart';
 
 const double _kFlingVelocity = 2.0;
 
@@ -69,7 +70,6 @@ class _BackdropPanel extends StatelessWidget {
 }
 
 class _BackdropTitle extends AnimatedWidget {
-
   const _BackdropTitle({
     Key key,
     Listenable listenable,
@@ -156,7 +156,7 @@ class _BackdropState extends State<Backdrop>
       setState(() {
         _controller.fling(
             velocity:
-            _backdropPanelVisible ? -_kFlingVelocity : _kFlingVelocity);
+                _backdropPanelVisible ? -_kFlingVelocity : _kFlingVelocity);
       });
     } else if (!_backdropPanelVisible) {
       setState(() {
@@ -212,7 +212,14 @@ class _BackdropState extends State<Backdrop>
     else
       _controller.fling(
           velocity:
-          _controller.value < 0.5 ? -_kFlingVelocity : _kFlingVelocity);
+              _controller.value < 0.5 ? -_kFlingVelocity : _kFlingVelocity);
+  }
+
+  String _mapPropsToString(Map<String, dynamic> props) {
+    return props.keys.fold(
+        ' - ',
+        (String value, String key) =>
+            '$value${capitalize(key)}: ${props[key]}');
   }
 
   Widget _buildStack(BuildContext context, BoxConstraints constraints) {
@@ -226,6 +233,11 @@ class _BackdropState extends State<Backdrop>
       end: const RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
     ).animate(_controller.view);
 
+    final Map<String, dynamic> viewProps = widget.currentView.getProps();
+
+    final String backDropTitle =
+        '${viewProps != null ? _mapPropsToString(viewProps) : ''}';
+
     return Container(
       key: _backdropKey,
       child: Stack(
@@ -237,7 +249,7 @@ class _BackdropState extends State<Backdrop>
               onTap: _toggleBackdropPanelVisibility,
               onVerticalDragUpdate: _handleDragUpdate,
               onVerticalDragEnd: _handleDragEnd,
-              title: Text(widget.currentView.name),
+              title: Text('${widget.currentView.name}$backDropTitle'),
               child: widget.frontPanel,
             ),
           ),

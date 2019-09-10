@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'api.dart';
-import 'custom_progress_indicator.dart';
+import 'package:flutter_demo/widgets/custom_progress_indicator.dart';
 import 'custom_view.dart';
 import 'function_list.dart';
 import 'list_route.dart';

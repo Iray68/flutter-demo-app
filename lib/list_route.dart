@@ -5,6 +5,8 @@ import 'backdrop.dart';
 import 'custom_view.dart';
 import 'function_list.dart';
 
+import 'todo_list.dart';
+
 class ListRoute extends StatefulWidget {
   const ListRoute(
       {@required this.viewList,
@@ -37,10 +39,9 @@ class _ListRouteState extends State<ListRoute> {
   }
 
   Widget _router(CustomView view) {
-    print('props: ${view.getProps()}');
-    switch(view.name) {
-      case 'SubList1':
-        return const Text('Welcome');
+    switch (view.name) {
+      case 'Task':
+        return TodoList(view.getProps());
         break;
       case 'About':
         return const AboutPage();

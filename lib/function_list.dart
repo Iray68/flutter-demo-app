@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'custom_view.dart';
 import 'function_tile.dart';
+import 'task.dart';
 
 const double _padding = 8.0;
-const String _mainFunctionName = 'Task List';
+const String _mainFunctionName = 'Start';
 
 class FunctionList extends StatelessWidget {
   const FunctionList({@required this.onTap, @required this.viewList});
@@ -30,7 +31,7 @@ class FunctionList extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0)),
               onPressed: () => onTap(_createViewWithProps(
-                  0, <String, dynamic>{'onlyShowInProgress': true})),
+                  0, <String, dynamic>{'status': TaskStatus.progress})),
               child: Column(
                 children: <Widget>[
                   Icon(Icons.domain, size: 80.0),
